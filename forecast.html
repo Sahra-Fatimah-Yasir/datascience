@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Speed Forecast</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="forecast-navbar-container">
+        <div class="forecast-navbar">
+            <div class="logo-container">
+                <img src="images/logo.png" alt="Logo" class="logo">
+                <span class="logo-text">MeWind</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="dataset.html">Dataset</a>
+                <a href="about.html">About Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="forecast-container">
+        <div class="forecast-header">
+            <h1 class="forecast-title">Wind Speed Forecast</h1>
+            <p class="forecast-description">Upload data, train, validate, and test the wind speed prediction model</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="forecast-tabs">
+            <button class="forecast-tab-button active" onclick="showTab('upload')">Upload</button>
+            <button class="forecast-tab-button" onclick="showTab('train')">Train</button>
+            <button class="forecast-tab-button" onclick="showTab('validate')">Validate</button>
+            <button class="forecast-tab-button" onclick="showTab('test')">Test</button>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="upload" class="forecast-tab-content active">
+            <div class="forecast-upload-section">
+                <label for="forecast-upload-file">Upload CSV File</label>
+                <input type="file" id="forecast-upload-file" accept=".csv">
+            </div>
+        </div>
+
+        <div id="train" class="forecast-tab-content">
+            <p>Please upload data first.</p>
+        </div>
+
+        <div id="validate" class="forecast-tab-content">
+            <p>Please complete the training phase first.</p>
+        </div>
+
+        <div id="test" class="forecast-tab-content">
+            <p>Please complete the validation phase first.</p>
+        </div>
+    </main>
+
+    <!-- Script -->
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.forecast-tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Deactivate all tab buttons
+            const tabButtons = document.querySelectorAll('.forecast-tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            // Show the selected tab
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
