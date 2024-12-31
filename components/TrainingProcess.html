@@ -7,82 +7,71 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-    <style>
-        body {
-            overflow: hidden;   
-        }
-    </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-    <main class="container mx-auto px-6 py-10 h-screen overflow-y-auto">
-        <!-- Training Data Preview -->
-        <div class="mb-8" data-aos="fade-right">
-            <h2 class="text-2xl font-semibold text-gray-800">Training Data Preview</h2>
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg mt-4">
-                <table id="dataTable" class="min-w-full border border-gray-200 divide-y divide-gray-200">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">TANGGAL</th>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">TX</th>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">RH_AVG</th>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">RR</th>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">FF_X</th>
-                            <th class="px-4 py-2 text-left text-gray-600 font-bold">FF_AVG</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataBody" class="divide-y divide-gray-200">
-                        <!-- Data dynamically inserted -->
-                    </tbody>
-                </table>
-            </div>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center">
+    <main class="container mx-auto p-6 bg-white rounded-lg shadow-xl space-y-6" data-aos="fade-up">
+        <!-- Title and Description -->
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-[#0D3B5D]">Training Data Preview</h1>
+        </div>
+
+        <!-- Data Table -->
+        <div class="overflow-x-auto" data-aos="fade-right">
+            <table class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TANGGAL</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TX</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RH_AVG</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RR</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">FF_X</th>
+                    </tr>
+                </thead>
+                <tbody id="dataBody">
+                    <!-- Data dynamically inserted -->
+                </tbody>
+            </table>
         </div>
 
         <!-- Training Button -->
-        <div class="mb-8 text-center" data-aos="zoom-in">
-            <button
-                id="startTrainingButton"
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
-                Start Training
-            </button>
-        </div>
+        <button id="startTrainingButton" class="w-full bg-[#0D3B5D] text-white font-bold py-3 rounded-lg hover:bg-[#0B2D48] focus:outline-none focus:ring focus:ring-[#0D3B5D] transition" data-aos="zoom-in">
+            Start Training
+        </button>
 
         <!-- Progress Bar -->
-        <div class="w-full bg-gray-200 rounded-full h-4 mb-6" data-aos="fade-up">
-            <div id="progressBar" class="bg-blue-600 h-4 rounded-full" style="width: 0%;"></div>
+        <div id="progressContainer" class="w-full bg-gray-200 rounded-full h-6 overflow-hidden hidden">
+            <div id="progressBar" class="bg-[#0D3B5D] h-full transition-all duration-300" style="width: 0%;"></div>
         </div>
 
-        <!-- Metrics -->
-        <div id="metricsContainer" class="mt-6 hidden" data-aos="fade-left">
-            <h3 class="font-semibold text-gray-800">Training Metrics:</h3>
-            <p id="rmse" class="text-gray-700">RMSE: NaN</p>
-            <p id="mse" class="text-gray-700">MSE: NaN</p>
-            <p id="mae" class="text-gray-700">MAE: NaN</p>
-            <p id="mape" class="text-gray-700">MAPE: NaN%</p>
+        <!-- Metrics Display -->
+        <div id="metricsContainer" class="mt-6 hidden space-y-3">
+            <h3 class="font-semibold text-lg text-[#0D3B5D]">Training Metrics:</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <p id="rmse" class="bg-gray-100 p-3 rounded-lg shadow-inner">RMSE: --</p>
+                <p id="mse" class="bg-gray-100 p-3 rounded-lg shadow-inner">MSE: --</p>
+                <p id="mae" class="bg-gray-100 p-3 rounded-lg shadow-inner">MAE: --</p>
+                <p id="mape" class="bg-gray-100 p-3 rounded-lg shadow-inner">MAPE: --%</p>
+            </div>
         </div>
 
-        <!-- Proceed Button -->
-        <div class="text-center mt-6 hidden" id="proceedButtonContainer" data-aos="zoom-in-up">
-            <button
-                id="proceedButton"
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition">
-                Proceed to Validation
-            </button>
-        </div>
+        <!-- Proceed to Validation -->
+        <button id="proceedToValidation" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 transition hidden">
+            Proceed to Validation
+        </button>
     </main>
 
     <script>
-        // Initialize AOS library for animations
         AOS.init({
             duration: 1000,
             once: true
         });
 
         const mockData = [
-            { tanggal: "2022-03-20", tx: 30.3, rh_avg: 82, rr: 8888, ff_x: 15, ff_avg: 3 },
-            { tanggal: "2022-03-21", tx: 33.5, rh_avg: 75, rr: 29.7, ff_x: 5, ff_avg: 2 },
-            { tanggal: "2022-03-22", tx: 31.6, rh_avg: 85, rr: 0, ff_x: 5, ff_avg: 2 },
-            { tanggal: "2022-03-23", tx: 31.8, rh_avg: 84, rr: 4, ff_x: 4, ff_avg: 2 },
-            { tanggal: "2022-03-24", tx: 32.5, rh_avg: 82, rr: 15.2, ff_x: 6, ff_avg: 3 }
+            { tanggal: "2022-03-20", tx: 30.3, rh_avg: 82, rr: 8888, ff_x: 15 },
+            { tanggal: "2022-03-21", tx: 33.5, rh_avg: 75, rr: 29.7, ff_x: 5 },
+            { tanggal: "2022-03-22", tx: 31.6, rh_avg: 85, rr: 0, ff_x: 5 },
+            { tanggal: "2022-03-23", tx: 31.8, rh_avg: 84, rr: 4, ff_x: 4 },
+            { tanggal: "2022-03-24", tx: 32.5, rh_avg: 82, rr: 15.2, ff_x: 6 }
         ];
 
         function populateTable(data) {
@@ -90,12 +79,11 @@
             data.forEach(row => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td class="px-4 py-2 text-gray-700">${row.tanggal}</td>
-                    <td class="px-4 py-2 text-gray-700">${row.tx}</td>
-                    <td class="px-4 py-2 text-gray-700">${row.rh_avg}</td>
-                    <td class="px-4 py-2 text-gray-700">${row.rr}</td>
-                    <td class="px-4 py-2 text-gray-700">${row.ff_x}</td>
-                    <td class="px-4 py-2 text-gray-700">${row.ff_avg}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-gray-700">${row.tanggal}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-gray-700">${row.tx}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-gray-700">${row.rh_avg}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-gray-700">${row.rr}</td>
+                    <td class="border border-gray-300 px-4 py-2 text-gray-700">${row.ff_x}</td>
                 `;
                 dataBody.appendChild(tr);
             });
@@ -103,19 +91,19 @@
 
         function calculateMetrics(actual, predicted) {
             const n = actual.length;
-            const errors = actual.map((a, i) => a - predicted[i]);
-            const mse = errors.reduce((sum, err) => sum + err ** 2, 0) / n;
-            const mae = errors.reduce((sum, err) => sum + Math.abs(err), 0) / n;
-            const mape = errors.reduce((sum, err, i) => sum + Math.abs(err / actual[i]), 0) / n * 100;
+            const mse = actual.reduce((sum, curr, i) => sum + Math.pow(curr - predicted[i], 2), 0) / n;
             const rmse = Math.sqrt(mse);
-
-            return { mse, mae, mape, rmse };
+            const mae = actual.reduce((sum, curr, i) => sum + Math.abs(curr - predicted[i]), 0) / n;
+            const mape = actual.reduce((sum, curr, i) => sum + Math.abs((curr - predicted[i]) / curr), 0) / n * 100;
+            return { mse, rmse, mae, mape };
         }
 
         document.getElementById("startTrainingButton").addEventListener("click", () => {
+            const progressContainer = document.getElementById("progressContainer");
             const progressBar = document.getElementById("progressBar");
             const metricsContainer = document.getElementById("metricsContainer");
-            const proceedButtonContainer = document.getElementById("proceedButtonContainer");
+            const proceedToValidation = document.getElementById("proceedToValidation");
+
             const rmseElement = document.getElementById("rmse");
             const mseElement = document.getElementById("mse");
             const maeElement = document.getElementById("mae");
@@ -124,9 +112,11 @@
             const actual = mockData.map(row => row.tx);
             const predicted = actual.map(value => value + (Math.random() - 0.5) * 2);
 
+            progressContainer.classList.remove("hidden");
+
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 10;
+                progress += 20;
                 progressBar.style.width = `${progress}%`;
 
                 if (progress >= 100) {
@@ -137,13 +127,14 @@
                     mseElement.textContent = `MSE: ${metrics.mse.toFixed(2)}`;
                     maeElement.textContent = `MAE: ${metrics.mae.toFixed(2)}`;
                     mapeElement.textContent = `MAPE: ${metrics.mape.toFixed(2)}%`;
+
                     metricsContainer.classList.remove("hidden");
-                    proceedButtonContainer.classList.remove("hidden");
+                    proceedToValidation.classList.remove("hidden");
                 }
             }, 500);
         });
 
-        document.getElementById("proceedButton").addEventListener("click", () => {
+        document.getElementById("proceedToValidation").addEventListener("click", () => {
             window.location.href = "ValidationProcess.html";
         });
 
