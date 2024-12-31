@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Process</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <header class="bg-[#0D3B5D] fixed top-0 w-full shadow-lg z-50">
+        <div class="container mx-auto flex items-center justify-between py-3 px-6">
+            <div class="flex items-center gap-3">
+                <img src="images/logo.png" alt="MeWind Logo" class="w-10 h-auto">
+                <span class="text-white font-bold text-xl">MeWind</span>
+            </div>
+            <nav class="flex space-x-6">
+                <a href="forecast.html" class="text-white hover:text-blue-300 font-semibold">Back to Forecast</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-24 px-6">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-[#0D3B5D]">Testing Process</h1>
+            <p class="text-gray-600 mt-2">Analyze the final test results below.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <p class="text-gray-700 font-semibold">Testing Results:</p>
+            <ul class="mt-4 text-gray-600">
+                <li>Prediction Accuracy: 88%</li>
+                <li>Average Wind Speed Prediction: 12.3 km/h</li>
+            </ul>
+            <button onclick="goBackToForecast()" class="mt-6 px-4 py-2 bg-[#0D3B5D] text-white rounded hover:bg-blue-700">
+                Back to Forecast
+            </button>
+        </div>
+    </main>
+
+    <script>
+        function goBackToForecast() {
+            window.location.href = "forecast.html";
+        }
+    </script>
+</body>
+</html>

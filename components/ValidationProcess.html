@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Process</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+</head>
+<body class="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center">
+    <main class="container mx-auto p-6 bg-white rounded-lg shadow-xl space-y-6" data-aos="fade-up">
+        <!-- Title and Description -->
+        <div class="text-center">
+            <h1 class="text-3xl font-bold text-[#0D3B5D]">Validation Data Preview</h1>
+        </div>
+
+        <!-- Data Table -->
+        <div class="overflow-x-auto" data-aos="fade-right">
+            <table class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TANGGAL</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TX</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RH_AVG</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RR</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">FF_X</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">FF_AVG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">05-02-2024</td>
+                        <td class="border border-gray-300 px-4 py-2">32.8</td>
+                        <td class="border border-gray-300 px-4 py-2">80</td>
+                        <td class="border border-gray-300 px-4 py-2">0</td>
+                        <td class="border border-gray-300 px-4 py-2">6</td>
+                        <td class="border border-gray-300 px-4 py-2">3</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2">06-02-2024</td>
+                        <td class="border border-gray-300 px-4 py-2">32.1</td>
+                        <td class="border border-gray-300 px-4 py-2">81</td>
+                        <td class="border border-gray-300 px-4 py-2">-</td>
+                        <td class="border border-gray-300 px-4 py-2">5</td>
+                        <td class="border border-gray-300 px-4 py-2">2</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">07-02-2024</td>
+                        <td class="border border-gray-300 px-4 py-2">31.2</td>
+                        <td class="border border-gray-300 px-4 py-2">83</td>
+                        <td class="border border-gray-300 px-4 py-2">0</td>
+                        <td class="border border-gray-300 px-4 py-2">5</td>
+                        <td class="border border-gray-300 px-4 py-2">2</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2">08-02-2024</td>
+                        <td class="border border-gray-300 px-4 py-2">32.6</td>
+                        <td class="border border-gray-300 px-4 py-2">81</td>
+                        <td class="border border-gray-300 px-4 py-2">0</td>
+                        <td class="border border-gray-300 px-4 py-2">7</td>
+                        <td class="border border-gray-300 px-4 py-2">3</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 px-4 py-2">09-02-2024</td>
+                        <td class="border border-gray-300 px-4 py-2">31.6</td>
+                        <td class="border border-gray-300 px-4 py-2">82</td>
+                        <td class="border border-gray-300 px-4 py-2">-</td>
+                        <td class="border border-gray-300 px-4 py-2">6</td>
+                        <td class="border border-gray-300 px-4 py-2">3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Validation Button -->
+        <button id="startValidation" class="w-full bg-[#0D3B5D] text-white font-bold py-3 rounded-lg hover:bg-[#0B2D48] focus:outline-none focus:ring focus:ring-[#0D3B5D] transition" data-aos="zoom-in">
+            Start Validation
+        </button>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" class="w-full bg-gray-200 rounded-full h-6 overflow-hidden hidden">
+            <div id="progressBar" class="bg-[#0D3B5D] h-full transition-all duration-300" style="width: 0%;"></div>
+        </div>
+
+        <!-- Metrics Display -->
+        <div id="metricsContainer" class="mt-6 hidden space-y-3">
+            <h3 class="font-semibold text-lg text-[#0D3B5D]">Validation Metrics:</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <p id="rmse" class="bg-gray-100 p-3 rounded-lg shadow-inner">RMSE: --</p>
+                <p id="mse" class="bg-gray-100 p-3 rounded-lg shadow-inner">MSE: --</p>
+                <p id="mae" class="bg-gray-100 p-3 rounded-lg shadow-inner">MAE: --</p>
+                <p id="mape" class="bg-gray-100 p-3 rounded-lg shadow-inner">MAPE: --%</p>
+            </div>
+        </div>
+
+        <!-- Proceed to Testing -->
+        <button id="proceedToTesting" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 transition hidden">
+            Proceed to Testing
+        </button>
+    </main>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        const startValidation = document.getElementById('startValidation');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const metricsContainer = document.getElementById('metricsContainer');
+        const proceedToTesting = document.getElementById('proceedToTesting');
+
+        const rmseElement = document.getElementById('rmse');
+        const mseElement = document.getElementById('mse');
+        const maeElement = document.getElementById('mae');
+        const mapeElement = document.getElementById('mape');
+
+        const dummyData = [
+            { windSpeed: 5 },
+            { windSpeed: 6 },
+            { windSpeed: 7 },
+            { windSpeed: 8 },
+            { windSpeed: 9 }
+        ];
+
+        const calculateMetrics = (actual, predicted) => {
+            const n = actual.length;
+            const mse = actual.reduce((acc, curr, i) => acc + Math.pow(curr - predicted[i], 2), 0) / n;
+            const rmse = Math.sqrt(mse);
+            const mae = actual.reduce((acc, curr, i) => acc + Math.abs(curr - predicted[i]), 0) / n;
+            const mape = actual.reduce((acc, curr, i) => acc + Math.abs((curr - predicted[i]) / curr), 0) / n * 100;
+            return { mse, rmse, mae, mape };
+        };
+
+        startValidation.addEventListener('click', () => {
+            progressContainer.classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 20;
+                progressBar.style.width = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Simulating validation results
+                    const actual = dummyData.map(row => row.windSpeed);
+                    const predicted = actual.map(value => value + (Math.random() - 0.5) * 2);
+                    const metrics = calculateMetrics(actual, predicted);
+
+                    rmseElement.textContent = `RMSE: ${metrics.rmse.toFixed(2)}`;
+                    mseElement.textContent = `MSE: ${metrics.mse.toFixed(2)}`;
+                    maeElement.textContent = `MAE: ${metrics.mae.toFixed(2)}`;
+                    mapeElement.textContent = `MAPE: ${metrics.mape.toFixed(2)}%`;
+
+                    metricsContainer.classList.remove('hidden');
+                    proceedToTesting.classList.remove('hidden');
+                }
+            }, 500);
+        });
+
+        proceedToTesting.addEventListener('click', () => {
+            window.location.href = 'TestingProcess.html';
+        });
+    </script>
+</body>
+</html>
