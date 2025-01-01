@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>History - Dataset Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background: #f3f4f6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex: 1;
+        padding-top: 5rem;
+        padding-bottom: 2rem;
+      }
+      footer {
+        background-color: #0d3b5d;
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+      }
+      .table th,
+      .table td {
+        text-align: left;
+        padding: 12px; /* Lebih besar untuk kemudahan */
+        font-size: 14px; /* Perbesar teks tabel */
+      }
+      .table th {
+        background: #f1f5f9;
+        font-weight: bold;
+        color: #374151;
+      }
+      .table td {
+        color: #4b5563;
+      }
+      .table tr:hover {
+        background: #f9fafb;
+      }
+      @media (max-width: 768px) {
+        .table th,
+        .table td {
+          font-size: 12px;
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="bg-[#0D3B5D] fixed top-0 w-full z-50 shadow-lg">
+      <div class="container mx-auto flex items-center justify-between py-3 px-6">
+        <div class="flex items-center gap-3">
+          <img src="images/logo.png" alt="MeWind Logo" class="w-10 h-auto" />
+          <span class="text-white font-bold text-xl">MeWind</span>
+        </div>
+        <nav class="flex space-x-6">
+          <a href="index.html" class="text-white hover:text-blue-300">Home</a>
+          <a href="history.html" class="text-blue-400 font-semibold">History</a>
+          <a href="about.html" class="text-white hover:text-blue-300">About Us</a>
+          <a href="forecast.html" class="text-white hover:text-blue-300">Forecast</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-700">Historical Data Management</h1>
+        <p class="mt-2 text-gray-500">View and manage historical wind speed datasets for better predictions</p>
+      </div>
+
+      <!-- Dataset History Table -->
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex space-x-3 items-center">
+            <label for="yearFilter" class="text-gray-600 font-semibold">Filter by Year:</label>
+            <select id="yearFilter" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-gray-600">
+              <option value="all">All</option>
+              <option value="2020">2020</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+          <div class="flex space-x-3 items-center">
+            <label for="entriesToShow" class="text-gray-600 font-semibold">Show:</label>
+            <select id="entriesToShow" class="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 text-gray-600">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="100">100</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <table class="table w-full border-collapse">
+            <thead>
+              <tr>
+                <th class="border-b border-gray-300">Tanggal</th>
+                <th class="border-b border-gray-300">TX</th>
+                <th class="border-b border-gray-300">RH_AVG</th>
+                <th class="border-b border-gray-300">RR</th>
+                <th class="border-b border-gray-300">FF_X</th>
+                <th class="border-b border-gray-300">FF_AVG</th>
+              </tr>
+            </thead>
+            <tbody id="datasetBody">
+              <!-- Data will be dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2024 <span class="text-blue-400">MeWind</span>. Built with <span class="text-red-500">❤</span> by <span class="text-blue-500 font-semibold">WindScholars</span>.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      const dataset = [
+        { tanggal: '2022-03-20', tx: 30.3, rh_avg: 82, rr: 8888, ff_x: 15, ff_avg: 3 },
+        { tanggal: '2022-03-21', tx: 33.5, rh_avg: 75, rr: 29.7, ff_x: 5, ff_avg: 2 },
+        { tanggal: '2022-03-22', tx: 31.6, rh_avg: 85, rr: 0, ff_x: 5, ff_avg: 2 },
+        { tanggal: '2022-03-23', tx: 31.8, rh_avg: 84, rr: 4, ff_x: 4, ff_avg: 2 },
+        { tanggal: '2022-03-24', tx: 32.5, rh_avg: 82, rr: 15.2, ff_x: 6, ff_avg: 3 },
+        { tanggal: '2022-03-25', tx: 32.8, rh_avg: 80, rr: 0, ff_x: 6, ff_avg: 2 },
+        { tanggal: '2022-03-26', tx: 32.2, rh_avg: 84, rr: '-', ff_x: 6, ff_avg: 2 },
+        { tanggal: '2022-03-27', tx: 32.8, rh_avg: 80, rr: 26, ff_x: 5, ff_avg: 2 },
+        { tanggal: '2022-03-28', tx: 33.0, rh_avg: 84, rr: 8888, ff_x: 5, ff_avg: 2 },
+        { tanggal: '2022-03-29', tx: 32.1, rh_avg: 78, rr: 5, ff_x: 6, ff_avg: 2 },
+        { tanggal: '2022-03-30', tx: 32.0, rh_avg: 80, rr: '-', ff_x: 4, ff_avg: 2 },
+        { tanggal: '2023-01-01', tx: 29.9, rh_avg: 79, rr: 0, ff_x: 7, ff_avg: 3 },
+        { tanggal: '2023-01-02', tx: 30.3, rh_avg: 80, rr: 0, ff_x: 12, ff_avg: 4 },
+        { tanggal: '2023-01-03', tx: 30.4, rh_avg: 83, rr: '-', ff_x: 10, ff_avg: 4 },
+        { tanggal: '2023-01-04', tx: 27.0, rh_avg: 91, rr: 15.1, ff_x: 6, ff_avg: 3 },
+        { tanggal: '2023-01-05', tx: 29.8, rh_avg: 83, rr: 6.2, ff_x: 9, ff_avg: 4 },
+        { tanggal: '2023-01-06', tx: 31.6, rh_avg: 78, rr: 0.1, ff_x: 5, ff_avg: 3 },
+        { tanggal: '2023-01-07', tx: 31.0, rh_avg: 78, rr: 0, ff_x: 9, ff_avg: 2 },
+        { tanggal: '2023-01-08', tx: 31.7, rh_avg: 77, rr: 0, ff_x: 6, ff_avg: 3 },
+        { tanggal: '2023-01-09', tx: 31.8, rh_avg: 82, rr: 0, ff_x: 4, ff_avg: 2 },
+        { tanggal: '2023-01-10', tx: 30.5, rh_avg: 84, rr: 0, ff_x: 4, ff_avg: 1 },
+        { tanggal: '2023-01-11', tx: '-', rh_avg: 92, rr: 8888, ff_x: 10, ff_avg: 1 },
+        { tanggal: '2023-01-12', tx: 31.2, rh_avg: 82, rr: 43.4, ff_x: 4, ff_avg: 2 },
+        { tanggal: '2023-01-13', tx: 30.7, rh_avg: 87, rr: 0, ff_x: 3, ff_avg: 1 },
+        { tanggal: '2023-01-14', tx: 30.5, rh_avg: 86, rr: 12.5, ff_x: 4, ff_avg: 1 },
+        { tanggal: '2023-01-15', tx: 32.0, rh_avg: 82, rr: 8888, ff_x: 5, ff_avg: 1 },
+        { tanggal: '2023-01-16', tx: 30.1, rh_avg: 79, rr: 2.7, ff_x: 7, ff_avg: 3 },
+        { tanggal: '2023-01-17', tx: 30.6, rh_avg: 76, rr: 0, ff_x: 6, ff_avg: 4 },
+        { tanggal: '2023-01-18', tx: 30.4, rh_avg: 80, rr: '-', ff_x: 7, ff_avg: 4 },
+        { tanggal: '2023-01-19', tx: 28.4, rh_avg: 90, rr: 0.6, ff_x: 6, ff_avg: 2 },
+        { tanggal: '2023-01-20', tx: 29.0, rh_avg: 88, rr: 15.6, ff_x: 8, ff_avg: 3 },
+        { tanggal: '2023-01-21', tx: 30.2, rh_avg: 84, rr: 40.2, ff_x: 6, ff_avg: 2 },
+        { tanggal: '2023-01-22', tx: 29.6, rh_avg: 86, rr: 0, ff_x: 8, ff_avg: 2 },
+        { tanggal: '2023-01-23', tx: 26.0, rh_avg: 98, rr: 31.5, ff_x: 5, ff_avg: 2 },
+        { tanggal: '2023-01-24', tx: 25.1, rh_avg: 98, rr: 76.4, ff_x: 4, ff_avg: 2 },
+        { tanggal: '2023-01-25', tx: 27.0, rh_avg: 98, rr: 17.4, ff_x: 7, ff_avg: 3 },
+        { tanggal: '2023-01-26', tx: 26.6, rh_avg: 96, rr: 131, ff_x: 10, ff_avg: 3 },
+        { tanggal: '2023-01-27', tx: 30.5, rh_avg: 86, rr: 2.8, ff_x: 10, ff_avg: 4 },
+        { tanggal: '2023-01-28', tx: '-', rh_avg: 99, rr: 0, ff_x: 9, ff_avg: 5 },
+        { tanggal: '2023-01-29', tx: 25.3, rh_avg: 96, rr: 89.1, ff_x: 9, ff_avg: 5 },
+      ];
+
+      // Render the dataset
+      function renderDataset(entriesToShow, yearFilter) {
+        const tableBody = document.getElementById('datasetBody');
+        tableBody.innerHTML = ''; // Clear current rows
+
+        let filteredData = dataset;
+
+        if (yearFilter !== 'all') {
+          filteredData = dataset.filter((row) => row.tanggal.startsWith(yearFilter));
+        }
+
+        const dataToRender = entriesToShow === 'all' ? filteredData : filteredData.slice(0, parseInt(entriesToShow, 10));
+
+        dataToRender.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+                  <td class="border-b border-gray-300">${row.tanggal}</td>
+                  <td class="border-b border-gray-300">${row.tx}</td>
+                  <td class="border-b border-gray-300">${row.rh_avg}</td>
+                  <td class="border-b border-gray-300">${row.rr}</td>
+                  <td class="border-b border-gray-300">${row.ff_x}</td>
+                  <td class="border-b border-gray-300">${row.ff_avg}</td>
+                `;
+          tableBody.appendChild(tr);
+        });
+      }
+
+      // Dropdown change events
+      document.getElementById('entriesToShow').addEventListener('change', (e) => {
+        renderDataset(e.target.value, document.getElementById('yearFilter').value);
+      });
+
+      document.getElementById('yearFilter').addEventListener('change', (e) => {
+        renderDataset(document.getElementById('entriesToShow').value, e.target.value);
+      });
+
+      // Render default
+      renderDataset(10, 'all');
+    </script>
+  </body>
+</html>

@@ -1,86 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Testing Process</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <style>
-        body {
-            overflow: hidden;
-        }
+      body {
+        overflow: hidden;
+      }
     </style>
-</head>
-<body class="bg-gray-50 text-gray-900">
+  </head>
+  <body class="bg-gray-50 text-gray-900">
     <main class="container mx-auto px-6 py-10 h-screen overflow-y-auto">
-        <!-- Prediction Algorithm and Forecast Date -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6" data-aos="fade-up">
-            <div>
-                <label for="algorithm" class="block text-gray-700 font-bold mb-2">Prediction Algorithm</label>
-                <select id="algorithm" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="svm">SVM (Daily Weather Data)</option>
-                    <option value="lstm">LSTM (3-Day Historical Data)</option>
-                </select>
-            </div>
-            <div>
-                <label for="forecastDate" class="block text-gray-700 font-bold mb-2">Forecast Date</label>
-                <input type="date" id="forecastDate" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
+      <!-- Prediction Algorithm and Forecast Date -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6" data-aos="fade-up">
+        <div>
+          <label for="algorithm" class="block text-gray-700 font-bold mb-2">Prediction Algorithm</label>
+          <select id="algorithm" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="svm">SVM (Daily Weather Data)</option>
+            <option value="lstm">LSTM (3-Day Historical Data)</option>
+          </select>
+        </div>
+        <div>
+          <label for="forecastDate" class="block text-gray-700 font-bold mb-2">Forecast Date</label>
+          <input type="date" id="forecastDate" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Weather Input Fields -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" data-aos="fade-right">
+        <div>
+          <label for="windSpeed" class="block text-gray-700 font-bold mb-2">Wind Speed (km/h)</label>
+          <input type="number" id="windSpeed" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label for="humidity" class="block text-gray-700 font-bold mb-2">Humidity (%)</label>
+          <input type="number" id="humidity" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label for="rainfall" class="block text-gray-700 font-bold mb-2">Rainfall (mm)</label>
+          <input type="number" id="rainfall" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label for="temperature" class="block text-gray-700 font-bold mb-2">Temperature (&deg;C)</label>
+          <input type="number" id="temperature" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+      <!-- Historical Data Section -->
+      <div id="historicalData" class="hidden">
+        <!-- Day 1 -->
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Day 1 Data</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <div>
+            <label for="day1WindSpeed" class="block text-gray-700 font-bold mb-2">Wind Speed (km/h)</label>
+            <input type="number" id="day1WindSpeed" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day1Humidity" class="block text-gray-700 font-bold mb-2">Humidity (%)</label>
+            <input type="number" id="day1Humidity" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day1Rainfall" class="block text-gray-700 font-bold mb-2">Rainfall (mm)</label>
+            <input type="number" id="day1Rainfall" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day1Temperature" class="block text-gray-700 font-bold mb-2">Temperature (&deg;C)</label>
+            <input type="number" id="day1Temperature" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
 
-        <!-- Weather Input Fields -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6" data-aos="fade-right">
-            <div>
-                <label for="windSpeed" class="block text-gray-700 font-bold mb-2">Wind Speed (km/h)</label>
-                <input type="number" id="windSpeed" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label for="humidity" class="block text-gray-700 font-bold mb-2">Humidity (%)</label>
-                <input type="number" id="humidity" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label for="rainfall" class="block text-gray-700 font-bold mb-2">Rainfall (mm)</label>
-                <input type="number" id="rainfall" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label for="temperature" class="block text-gray-700 font-bold mb-2">Temperature (&deg;C)</label>
-                <input type="number" id="temperature" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
+        <!-- Day 2 -->
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Day 2 Data</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <!-- Repeat the same structure as Day 1 for Day 2 -->
+          <div>
+            <label for="day2WindSpeed" class="block text-gray-700 font-bold mb-2">Wind Speed (km/h)</label>
+            <input type="number" id="day2WindSpeed" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day2Humidity" class="block text-gray-700 font-bold mb-2">Humidity (%)</label>
+            <input type="number" id="day2Humidity" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day2Rainfall" class="block text-gray-700 font-bold mb-2">Rainfall (mm)</label>
+            <input type="number" id="day2Rainfall" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day2Temperature" class="block text-gray-700 font-bold mb-2">Temperature (&deg;C)</label>
+            <input type="number" id="day2Temperature" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
 
-        <!-- Predict Button -->
-        <div class="text-center" data-aos="zoom-in">
-            <button id="predictButton" class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-500 transition">
-                Predict Wind Speed
-            </button>
+        <!-- Day 3 -->
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Day 3 Data</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <!-- Repeat the same structure as Day 1 for Day 3 -->
+          <div>
+            <label for="day3WindSpeed" class="block text-gray-700 font-bold mb-2">Wind Speed (km/h)</label>
+            <input type="number" id="day3WindSpeed" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day3Humidity" class="block text-gray-700 font-bold mb-2">Humidity (%)</label>
+            <input type="number" id="day3Humidity" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day3Rainfall" class="block text-gray-700 font-bold mb-2">Rainfall (mm)</label>
+            <input type="number" id="day3Rainfall" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label for="day3Temperature" class="block text-gray-700 font-bold mb-2">Temperature (&deg;C)</label>
+            <input type="number" id="day3Temperature" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
         </div>
+      </div>
+
+      <!-- Predict Button -->
+      <div class="text-center" data-aos="zoom-in">
+        <button id="predictButton" class="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-500 transition">Predict Wind Speed</button>
+      </div>
     </main>
 
     <script>
-        // Initialize AOS library for animations
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
+      // Initialize AOS library for animations
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
 
-        // Add prediction logic
-        document.getElementById('predictButton').addEventListener('click', () => {
-            const algorithm = document.getElementById('algorithm').value;
-            const forecastDate = document.getElementById('forecastDate').value;
-            const windSpeed = document.getElementById('windSpeed').value;
-            const humidity = document.getElementById('humidity').value;
-            const rainfall = document.getElementById('rainfall').value;
-            const temperature = document.getElementById('temperature').value;
+      // Toggle visibility of historical data fields
+      document.getElementById('algorithm').addEventListener('change', function () {
+        const historicalData = document.getElementById('historicalData');
+        if (this.value === 'lstm') {
+          historicalData.classList.remove('hidden');
+        } else {
+          historicalData.classList.add('hidden');
+        }
+      });
 
-            if (!forecastDate) {
-                alert('Please select a forecast date');
-                return;
-            }
+      // Add prediction logic
+      document.getElementById('predictButton').addEventListener('click', () => {
+        const algorithm = document.getElementById('algorithm').value;
+        const forecastDate = document.getElementById('forecastDate').value;
+        const windSpeed = document.getElementById('windSpeed').value;
+        const humidity = document.getElementById('humidity').value;
+        const rainfall = document.getElementById('rainfall').value;
+        const temperature = document.getElementById('temperature').value;
 
-            alert(`Algorithm: ${algorithm}\nDate: ${forecastDate}\nWind Speed: ${windSpeed} km/h\nHumidity: ${humidity}%\nRainfall: ${rainfall} mm\nTemperature: ${temperature} °C`);
-        });
+        if (!forecastDate) {
+          alert('Please select a forecast date');
+          return;
+        }
+
+        alert(`Algorithm: ${algorithm}\nDate: ${forecastDate}\nWind Speed: ${windSpeed} km/h\nHumidity: ${humidity}%\nRainfall: ${rainfall} mm\nTemperature: ${temperature} °C`);
+      });
     </script>
-</body>
+  </body>
 </html>
