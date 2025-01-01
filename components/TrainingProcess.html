@@ -21,10 +21,10 @@
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TANGGAL</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">TX</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RH_AVG</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">RR</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">FF_X</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">Suhu Udara</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">Kelembaban Udara Rata-rata</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">Kecepatan Angin Maksimum</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-700">Kecepatan Angin Rata-rata</th>
                     </tr>
                 </thead>
                 <tbody id="dataBody">
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Proceed to Validation -->
-        <button id="proceedToValidation" class="w-full bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 transition hidden">
+        <button id="proceedToValidation" class="w-full bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring--300 transition hidden">
             Proceed to Validation
         </button>
     </main>
@@ -135,7 +135,7 @@
         });
 
         document.getElementById("proceedToValidation").addEventListener("click", () => {
-            window.location.href = "ValidationProcess.html";
+            parent.showTab('validate');
         });
 
         // Populate table on page load
